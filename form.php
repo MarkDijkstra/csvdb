@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Upload form</title>
+<title>CSVDB Upload form</title>
 
 <style>
     fieldset{
@@ -17,6 +17,7 @@
         display       : block; 
         margin-bottom : 5px; 
     }
+    select,
     [type=text]{
         width   : 50%;
         display : block;
@@ -47,38 +48,52 @@
         require_once "./classes/Csv.php";
         require_once "./classes/Import.php";
 
-        $name = $_POST['field--name'];
-        $file = $_FILES['field--file'];
+        $name      = $_POST['field--name'];
+        $file      = $_FILES['field--file'];
+        $delimiter = $_POST['field--delimiter'];
 
         // demo display content
         if (isset($file) && $file['error'] === UPLOAD_ERR_OK) {
 
-            $importer = new Csv($file["tmp_name"],true);
+            $csv    = new Csv($file["tmp_name"], false, $delimiter);
 
             echo '<pre>';
-                while($data = $importer->get(20)){
+                while($data = $csv->get(20)){
                    print_r($data);
                 }
             echo '</pre>';
+
+            // save name to file record
+           
+            $import = new Import($connection, $csv);
+            $import->insertFile($name);
          
         }
 
-        // save name to file record
-        $import = new Import($connection);
-        $import->insertFile($name);
+
 
     } elseif($_POST) {
        echo 'Some fields are empty!';
     }
 ?>
 
-    <form action="./import.php" method='post' enctype="multipart/form-data">
+    <form action="./form.php" method='post' enctype="multipart/form-data">
     <fieldset>
-        <legend>Upload datasheet</legend>
+        <legend>CSVDB Upload form</legend>
 
         <div class="form__row">
             <label for="field--name">Name:</label>
             <input type="text" name="field--name" id="field--name"/>
+        </div>
+        <div class="form__row">
+            <label for="field--delimiter">Delimiter:</label>
+            <select name="field--delimiter" id="field--delimiter">
+                <option value="0">Automatic detection (default)</option>
+                <option value="1">Tab</option>
+                <option value="2">Semicolon (;)</option>
+                <option value="3">Pipe (|)</option>
+                <option value="4">Comma (,)</option>
+            </select>
         </div>
         <div class="form__row">
             <label for="field--file">Import file:</label>

@@ -18,9 +18,9 @@
             parent::__construct("mysql:host=".$host.";dbname=".$db_name, $username, $password, $options);
 
             try {
-            $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+               $this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             } catch(PDOException $e) {
-            echo "Error: " . $e->getMessage();
+               echo "Error: " . $e->getMessage();
             }
 
         }
