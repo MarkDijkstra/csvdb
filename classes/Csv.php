@@ -18,7 +18,6 @@ class Csv
      * @param bool $parse Iclude header in each row
      * @param bool $delimiter Dilimiter CSV file
      * @param int $length Mar rows to show
-     *
      * @return void
      */
     function __construct(string $file_name, bool $parse_header = false, bool $delimiter, int $length = 8000)
@@ -51,7 +50,6 @@ class Csv
      * Method get
      *
      * @param bool $max_lines Max rows to show
-     *
      * @return void
      */
     function get($max_lines = 0)
@@ -84,13 +82,11 @@ class Csv
      * Method detectDelimiter
      *
      * @param string $fh CSV file
-     *
      * @return void
      */
     private function detectDelimiter($csvFile, $set_delimiter) 
     { 
-
-        if($set_delimiter == 0){
+        if($set_delimiter == 0) {
             $delimiters = array( ',' => 0, ';' => 0, "\t" => 0, '|' => 0, ); 
             $firstLine  = ''; 
             $handle     = fopen($csvFile, 'r'); 
@@ -106,7 +102,7 @@ class Csv
             } else { 
                 return key($delimiters); 
             } 
-        }else{
+        } else {
             $delim_list = array(1 => "\t", 2 => ";", 3 => "|", 4 => ",");
             return $delim_list[$set_delimiter];
         }

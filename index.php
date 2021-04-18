@@ -4,41 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CSVDB Upload form</title>
-
-<style>
-    fieldset{
-        border  : 1px solid #222;
-        width   : 600px;
-        margin  : 100px auto;
-        padding : 0 30px;
-    }
-    label{
-        display       : block; 
-        margin-bottom : 5px; 
-    }
-    select,
-    [type=text]{
-        width   : 50%;
-        display : block;
-        height  : 24px;
-    }
-    button{
-        padding:5px 20px;
-    }
-    .form__row{
-        display : block;
-        margin  : 30px 0;
-    }
-    pre{
-        background-color : #eee;
-        border           : 1px solid #ccc;
-        padding          : 15px;
-    }
-</style>
+    <title>CSVDB Upload form</title>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 
 <body>
+<?php include 'partials/partials.navigation.php';?>
 
 <?php 
 
@@ -46,7 +17,7 @@
     if ($_POST && !empty($_POST['field--name'])) {
 
         require_once "./classes/Csv.php";
-        require_once "./classes/Import.php";
+        require_once "./classes/Api.php";
 
         $name      = $_POST['field--name'];
         $file      = $_FILES['field--file'];
@@ -57,16 +28,16 @@
 
             $csv    = new Csv($file["tmp_name"], false, $delimiter);
 
-            echo '<pre>';
-                while($data = $csv->get(20)){
-                   print_r($data);
-                }
-            echo '</pre>';
+            // echo '<pre>';
+            //     while($data = $csv->get(20)){
+            //        print_r($data);
+            //     }
+            // echo '</pre>';
 
             // save name to file record
            
-            $import = new Import($connection, $csv);
-            $import->insertFile($name);
+            $process = new Api($connection);
+            $process->insert($name, $csv->get());
          
         }
 
@@ -76,8 +47,8 @@
        echo 'Some fields are empty!';
     }
 ?>
-
-    <form action="./form.php" method='post' enctype="multipart/form-data">
+<div class="content">
+    <form action="./index.php" method='post' enctype="multipart/form-data">
     <fieldset>
         <legend>CSVDB Upload form</legend>
 
@@ -105,6 +76,6 @@
 
     </fieldset>
     </form>
-
+</div>
 </body>
 </html>
