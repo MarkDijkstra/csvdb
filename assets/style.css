@@ -54,10 +54,10 @@ select,
 [type=text]{
     width   : 50%;
     display : block;
-    height  : 24px;
+    height  : 40px;
 }
 button{
-    padding : 5px 20px;
+    padding : 9px 20px;
 }
 .form__row{
     display : block;
@@ -67,4 +67,24 @@ pre{
     background-color : #eee;
     border           : 1px solid #ccc;
     padding          : 15px;
+}
+.table{
+    width           : 100%;
+    border-spacing  : 0;
+    border-collapse : collapse;
+    table-layout    : auto;
+    text-align      : left;
+}
+.table th,
+.table td{
+    padding : 12px 15px;
+    border  : 1px solid #ccc;
+}
+.success{
+    border     : 1px solid green;
+    background : #25da26;
+    color      : #fff;
+    padding    : 15px;
+    margin     : 20px;
+    display    : block;
 }

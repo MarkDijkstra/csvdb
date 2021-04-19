@@ -86,7 +86,7 @@ class Csv
      */
     private function detectDelimiter($csvFile, $set_delimiter) 
     { 
-        if($set_delimiter == 0) {
+        if ($set_delimiter == 0) {
             $delimiters = array( ',' => 0, ';' => 0, "\t" => 0, '|' => 0, ); 
             $firstLine  = ''; 
             $handle     = fopen($csvFile, 'r'); 

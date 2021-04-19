@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2021 at 10:36 AM
+-- Generation Time: Apr 19, 2021 at 09:28 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.4
 
@@ -59,7 +59,7 @@ CREATE TABLE `csvdb_file` (
   `id` bigint(20) NOT NULL,
   `name` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `update_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

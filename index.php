@@ -12,10 +12,7 @@
 <?php include 'partials/partials.navigation.php';?>
 
 <?php 
-
-    // test data
     if ($_POST && !empty($_POST['field--name'])) {
-
         require_once "./classes/Csv.php";
         require_once "./classes/Api.php";
 
@@ -23,31 +20,21 @@
         $file      = $_FILES['field--file'];
         $delimiter = $_POST['field--delimiter'];
 
-        // demo display content
         if (isset($file) && $file['error'] === UPLOAD_ERR_OK) {
-
-            $csv    = new Csv($file["tmp_name"], false, $delimiter);
-
-            // echo '<pre>';
-            //     while($data = $csv->get(20)){
-            //        print_r($data);
-            //     }
-            // echo '</pre>';
-
-            // save name to file record
-           
-            $process = new Api($connection);
-            $process->insert($name, $csv->get());
-         
+            $csv = new Csv($file["tmp_name"], false, $delimiter);
+            $api = new Api($connection);
+            $id  = $api->insert($name, $csv->get());               
+            
+            if ($id) {
+                echo '<div class="success">File "<strong>'.$_POST['field--name'].'</strong>"saved. File it <a href="view.php?id='.$id['id'].'">here</a>.</div>';
+            }
         }
-
-
-
     } elseif($_POST) {
        echo 'Some fields are empty!';
     }
 ?>
 <div class="content">
+
     <form action="./index.php" method='post' enctype="multipart/form-data">
     <fieldset>
         <legend>CSVDB Upload form</legend>
