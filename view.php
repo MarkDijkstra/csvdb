@@ -16,8 +16,13 @@
    $id      = $_GET['id'] ?? false;
    $api     = new Api($connection);
    $data    = $api->find($id);
-   $columns = unserialize($data['columns']);
-   $fields  = unserialize($data['fields']);
+
+   if(!$data){
+      echo '<div class="danger">File not found!</div>';
+   }else{
+      $columns = unserialize($data['columns']);
+      $fields  = unserialize($data['fields']);
+      
 ?>
 <div class="content">
     <h2>File: <?= $data['name'] ?? 'unknown'?></h2>
@@ -44,5 +49,6 @@
         </tbody>
     </table>
 </div>
+<?php }?>
 </body>
 </html>

@@ -81,8 +81,14 @@ pre{
     border  : 1px solid #ccc;
 }
 .success{
-    border     : 1px solid green;
-    background : #25da26;
+    background : green;
+    color      : #fff;
+    padding    : 15px;
+    margin     : 20px;
+    display    : block; 
+}
+.danger{
+    background : red;
     color      : #fff;
     padding    : 15px;
     margin     : 20px;
