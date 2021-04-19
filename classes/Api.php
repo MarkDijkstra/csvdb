@@ -5,8 +5,11 @@
  */
 class Api
 {  
-    private $bd;            
-    
+    private $bd;
+    public const TABLEFILE    = 'csvdb_file';
+    public const TABLECOLUMNS = 'csvdb_columns';
+    public const TABLEFIELDS  = 'csvdb_fields';
+
     /**
      * Method __construct
      *
@@ -29,9 +32,9 @@ class Api
      * @param string $name CSV file name
      * @return void
      */
-    private function insertFileTable($name)
+    private function insertFileTable(string $name)
     {
-        $query  = "INSERT INTO csvdb_file (name) VALUES(?)"; 
+        $query  = "INSERT INTO ".self::TABLEFILE." (name) VALUES(?)"; 
         $result = $this->db->prepare($query);
 
         if ($result->execute([$name])) {
@@ -42,16 +45,16 @@ class Api
     }
 
     /**
-     * Method insertColumnsTable
+     * Method insertTableColumns
      *
      * @param bool $id Last id of the file table insert
      * @param array $data CSV data
      * @return void
      */
-    private function insertColumnsTable($id, $data)
+    private function insertTableColumns(int $id, array $data)
     {
         $data   = serialize($data[0]);
-        $query  = "INSERT INTO csvdb_columns (file_id, data) VALUES(?, ?)"; 
+        $query  = "INSERT INTO ".self::TABLECOLUMNS." (file_id, data) VALUES(?, ?)"; 
         $result = $this->db->prepare($query);
 
         if ($result->execute([$id, $data])) {
@@ -60,20 +63,20 @@ class Api
     }
 
     /**
-     * Method insertFieldsTable
+     * Method insertTableFields
      *
      * @param bool $id Last id of the file table insert
      * @param array $data CSV data
      * @return void
      */
-    private function insertFieldsTable($id, $data)
+    private function insertTableFields(int $id, array $data)
     {
-        $data   = array_shift($data);
-        $data   = serialize($data);
-        $query  = "INSERT INTO csvdb_fields (file_id, data) VALUES(?, ?)"; 
-        $result = $this->db->prepare($query);
+        $shiftData[] = array_shift($data);
+        $shiftData   = serialize($data);
+        $query       = "INSERT INTO ".self::TABLEFIELDS." (file_id, data) VALUES(?, ?)"; 
+        $result      = $this->db->prepare($query);
 
-        if ($result->execute([$id, $data])) {
+        if ($result->execute([$id, $shiftData])) {
             return;
         }
     }
@@ -82,19 +85,19 @@ class Api
      * Method insert
      *
      * @param string $name CSV file name
-     * @param string $data CSV file data
+     * @param array $data CSV file data
      *
      * @return void
      */
-    public function insert($name, $data)
+    public function insert(string $name, array $data)
     {
         $last_id = self::insertFileTable($name);
 
         if ($data && $last_id) {
-            $colunms = self::insertColumnsTable($last_id, $data);  
+            $colunms = self::insertTableColumns($last_id, $data);  
 
             if (count($data) > 1) {          
-                $fields = self::insertFieldsTable($last_id, $data);
+                $fields = self::insertTableFields($last_id, $data);
             }
 
             return ['id' => $last_id];
@@ -102,22 +105,45 @@ class Api
     }
     
     /**
-     * Method select
+     * Method find
      *
-     * @param bool $id The id of the file
+     * @param int $id The id of the file
      * @return void
      */
-    public function select($id = false)
+    public function find(int $id = null)
     {
-        if ($id) {
-           // TODO
-        } else {
-            $query  = "SELECT * FROM csvdb_file ORDER BY id DESC"; 
+        if ($id && is_int($id)) {
+         
+            $query  = "SELECT fl.id, fl.name, cm.data as columns, fd.data as fields FROM 
+            ".self::TABLEFILE." as fl, 
+            ".self::TABLECOLUMNS." as cm,
+            ".self::TABLEFIELDS." as fd
+            WHERE fl.id = ?
+            AND cm.file_id = fl.id
+            AND fd.file_id = fl.id"; 
+
+            $result = $this->db->prepare($query);
+            if ($result->execute([$id])) {
+                return $result->fetch(PDO::FETCH_ASSOC);
+            }            
+        }
+    }
+
+    /**
+     * Method findAll
+     * 
+     * @param string $table The selected table
+     * @return void
+     */
+    public function findAll(string $table = null)
+    {
+        if ($table) {
+            $query  = "SELECT * FROM ".$table." ORDER BY id DESC"; 
             $result = $this->db->prepare($query);
             if ($result->execute()) {
                 return $result->fetchAll(\PDO::FETCH_ASSOC);
             }
-        }
+        }   
     }
 
 }

@@ -25,8 +25,9 @@
         </thead>
         <tbody>
         <?php 
+        
             $api  = new Api($connection);
-            $data = $api->select();
+            $data = $api->findAll(API::TABLEFILE);
 
             if (empty($data)) {
                 echo '<tr>'; 

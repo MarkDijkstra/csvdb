@@ -6,7 +6,7 @@
 class Csv
 {
     private $fp;
-    private $parse_header;
+    private $parseheader;
     private $header;
     private $delimiter;
     private $length;
@@ -16,20 +16,20 @@ class Csv
      *
      * @param string $file_name CSV file
      * @param bool $parse Iclude header in each row
-     * @param bool $delimiter Dilimiter CSV file
+     * @param int $delimiter Dilimiter CSV file
      * @param int $length Mar rows to show
      * @return void
      */
-    function __construct(string $file_name, bool $parse_header = false, bool $delimiter, int $length = 8000)
+    function __construct(string $file_name, bool $parseheader = false, string $delimiter, int $length = 8000)
     {
 
-        $this->fp           = fopen($file_name, "r");
-        $this->parse_header = $parse_header;
-        $this->delimiter    = self::detectDelimiter($file_name, $delimiter);
-        $this->length       = $length;
+        $this->fp          = fopen($file_name, "r");
+        $this->parseHeader = $parseheader;
+        $this->delimiter   = self::detectDelimiter($file_name, $delimiter);
+        $this->length      = $length;
         //$this->lines        = $lines; 
 
-        if ($this->parse_header) {
+        if ($this->parseHeader) {
            $this->header = fgetcsv($this->fp, $this->length, $this->delimiter);
         }
     }
@@ -49,30 +49,30 @@ class Csv
     /**
      * Method get
      *
-     * @param bool $max_lines Max rows to show
+     * @param int $max_lines Max rows to show
      * @return void
      */
-    function get($max_lines = 0)
+    function get(int $maxLines = 0)
     {
         $data = [];
 
-        if ($max_lines > 0) {
-            $line_count = 0;
+        if ($maxLines > 0) {
+            $lineCount = 0;
         } else {
-            $line_count = -1;
+            $lineCount = -1;
         }
 
-        while ($line_count < $max_lines && ($row = fgetcsv($this->fp, $this->length, $this->delimiter)) !== FALSE) {
-            if ($this->parse_header) {
-                foreach ($this->header as $i => $heading_i) {
-                    $row_new[$heading_i] = trim($row[$i]);
+        while ($lineCount < $maxLines && ($row = fgetcsv($this->fp, $this->length, $this->delimiter)) !== FALSE) {
+            if ($this->parseHeader) {
+                foreach ($this->header as $i => $hi) {
+                    $rowNew[$hi] = trim($row[$i]);
                 }
-                $data[] = $row_new;
+                $data[] = $rowNew;
             } else {
                 $data[] = $row;
             }
-            if ($max_lines > 0) {
-                $line_count++;
+            if ($maxLines > 0) {
+                $lineCount++;
             }
         }
         return $data;
@@ -81,12 +81,13 @@ class Csv
     /**
      * Method detectDelimiter
      *
-     * @param string $fh CSV file
+     * @param string $csvFile The CSV file
+     * @param int $setDelimiter Set a delimiter
      * @return void
      */
-    private function detectDelimiter($csvFile, $set_delimiter) 
+    private function detectDelimiter(string $csvFile, int $setDelimiter) 
     { 
-        if ($set_delimiter == 0) {
+        if ($setDelimiter == 0) {
             $delimiters = array( ',' => 0, ';' => 0, "\t" => 0, '|' => 0, ); 
             $firstLine  = ''; 
             $handle     = fopen($csvFile, 'r'); 
@@ -103,9 +104,8 @@ class Csv
                 return key($delimiters); 
             } 
         } else {
-            $delim_list = array(1 => "\t", 2 => ";", 3 => "|", 4 => ",");
-            return $delim_list[$set_delimiter];
+            $list = array(1 => "\t", 2 => ";", 3 => "|", 4 => ",");
+            return $list[$setDelimiter];
         }
     }
-
 }
