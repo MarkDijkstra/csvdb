@@ -1,6 +1,6 @@
 <nav>
     <span>
-       CSVDB
+    <a href="index.php">CSVDB</a>
     </span>
     <ul>
        <li>

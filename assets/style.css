@@ -14,29 +14,33 @@ nav{
     display          : block;
 }
 nav span{
-    float       : left;
-    color       : #fff;
-    height      : 50px;
-    padding     : 15px 20px;
-    font-weight : bold;
+    float   : left;
+    height  : 50px;
+    padding : 15px 20px;
+
+}
+nav span a{
+    color           : #fff;
+    font-weight     : bold;
+    text-decoration : none;
 }
 nav ul{
-    float        : right;
-    width        : auto;
-    margin       : 0;
-    list-style   : none;
+    float      : right;
+    width      : auto;
+    margin     : 0;
+    list-style : none;
 }
 nav li{
-     float: left;
+     float : left;
 }
-nav a{
+nav li a{
     float           : left;
     width           : auto;
     color           : #fff;
     padding         : 15px 20px; 
     text-decoration : none;
 }
-nav a:hover{
+nav li a:hover{
     background-color: #555;
 }
 .content{
@@ -46,7 +50,7 @@ fieldset{
     border  : 1px solid #222;
     padding : 0 30px;
 }
-label{
+fieldset label{
     display       : block; 
     margin-bottom : 5px; 
 }
@@ -74,23 +78,30 @@ pre{
     border-collapse : collapse;
     table-layout    : auto;
     text-align      : left;
+    border          : 1px solid #ccc;
+}
+.table th{
+    background : #eee;
 }
 .table th,
 .table td{
     padding : 12px 15px;
     border  : 1px solid #ccc;
 }
+.table input{
+    width : 100%;
+}
 .success{
-    background : green;
-    color      : #fff;
-    padding    : 15px;
-    margin     : 20px;
-    display    : block; 
+    background    : green;
+    color         : #fff;
+    padding       : 15px;
+    margin-bottom : 20px;
+    display       : block; 
 }
 .danger{
-    background : red;
-    color      : #fff;
-    padding    : 15px;
-    margin     : 20px;
-    display    : block;
+    background    : red;
+    color         : #fff;
+    padding       : 15px;
+    margin-bottom : 20px;
+    display       : block;
 }

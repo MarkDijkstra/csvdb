@@ -14,18 +14,18 @@ class Csv
     /**
      * Method __construct
      *
-     * @param string $file_name CSV file
+     * @param string $fileName CSV file
      * @param bool $parse Iclude header in each row
-     * @param int $delimiter Dilimiter CSV file
+     * @param int $delimiter Delimiter CSV file
      * @param int $length Mar rows to show
      * @return void
      */
-    function __construct(string $file_name, bool $parseheader = false, string $delimiter, int $length = 8000)
+    function __construct(string $fileName, bool $parseheader = false, string $delimiter, int $length = 9999)
     {
 
-        $this->fp          = fopen($file_name, "r");
+        $this->fp          = fopen($fileName, "r");
         $this->parseHeader = $parseheader;
-        $this->delimiter   = self::detectDelimiter($file_name, $delimiter);
+        $this->delimiter   = self::detectDelimiter($fileName, $delimiter);
         $this->length      = $length;
         //$this->lines        = $lines; 
 
@@ -49,7 +49,7 @@ class Csv
     /**
      * Method get
      *
-     * @param int $max_lines Max rows to show
+     * @param int $maxLines Max rows to show
      * @return void
      */
     function get(int $maxLines = 0)
