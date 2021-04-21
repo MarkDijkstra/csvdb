@@ -22,6 +22,7 @@
       } else {
          $columns = unserialize($data['columns']);
          $fields  = unserialize($data['fields']); 
+         array_shift($fields);// quick fix
          ?>
          
          <h2>File: <?= $data['name'] ?? 'unknown'?></h2>
