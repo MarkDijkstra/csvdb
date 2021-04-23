@@ -32,7 +32,7 @@
                         echo '<td>'.$field['updated_at'].'</td>';
                         echo '<td>
                             <a href="view.php?id='.$field['id'].'">View</a> | 
-                            <a href="edit.php?id='.$field['id'].'">Edit</a>
+                            <a href="edit.php?id='.$field['id'].'&action=edit">Edit</a>
                         </td>';
                         echo '</tr>'; 
                     }                

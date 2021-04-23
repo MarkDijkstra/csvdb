@@ -30,14 +30,15 @@ class Api
      * Method insertFile
      *
      * @param string $name CSV file name
+     * @param int $delmiter CSV delimiter
      * @return void
      */
-    private function insertFileTable(string $name)
+    private function insertFileTable(string $name, int $delmiter)
     {
-        $query  = "INSERT INTO ".self::TABLEFILE." (name) VALUES(?)"; 
+        $query  = "INSERT INTO ".self::TABLEFILE." (name, delimiter) VALUES(?,?)"; 
         $result = $this->db->prepare($query);
 
-        if ($result->execute([$name])) {
+        if ($result->execute([$name, $delimiter])) {
             return $this->db->lastInsertId();           
         }  
         
@@ -86,12 +87,12 @@ class Api
      *
      * @param string $name CSV file name
      * @param array $data CSV file data
-     *
+     * @param int $delmiter CSV delimiter
      * @return void
      */
-    public function insert(string $name, array $data)
+    public function insert(string $name, array $data, int $delimiter)
     {
-        $last_id = self::insertFileTable($name);
+        $last_id = self::insertFileTable($name, $delimiter);
 
         if ($data && $last_id) {
             $colunms = self::insertTableColumns($last_id, $data);  
@@ -145,5 +146,4 @@ class Api
             }
         }   
     }
-
 }

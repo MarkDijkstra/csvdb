@@ -1,5 +1,6 @@
 <?php 
     include 'partials/partials.header.php';
+    require_once "./classes/Api.php";
 
     $id      = $_GET['id'] ?? false;
     $api     = new Api($connection);

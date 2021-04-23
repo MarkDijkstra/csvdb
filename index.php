@@ -26,7 +26,7 @@
                 $name      = $_POST['edit--name'];
                 $delimiter = $_POST['edit--delimiter'];
                 $api       = new Api($connection);
-                $id        = $api->insert($name, $merger);              
+                $id        = $api->insert($name, $merger, $delimiter);              
                     
                 if ($id) {
                     echo '<div class="success">File "<strong>'.$name.'</strong>"saved. File it <a href="view.php?id='.$id['id'].'">here</a>.</div>';
