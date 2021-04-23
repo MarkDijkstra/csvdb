@@ -1,5 +1,6 @@
 <?php 
     include 'partials/partials.header.php';
+    require_once "./classes/Api.php";
 ?>
     <div class="content">
         <table class="table">

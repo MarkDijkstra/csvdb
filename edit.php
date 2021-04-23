@@ -1,5 +1,6 @@
 <?php 
     include 'partials/partials.header.php';
+    require_once "./classes/Api.php";
 ?>
    <div class="content">
       <?php
@@ -8,14 +9,14 @@
          $data = $api->find($id);
 
          if (isset($data['columns'])) {
-            $columns = unserialize($data['columns']);
+            $data['columns'] = unserialize($data['columns']);
          } else {
-            $columns = [];
+            $data['columns'] = [];
          }
          if (isset($data['fields'])) {
-            $fields = unserialize($data['fields']);
+            $data['fields'] = unserialize($data['fields']);
          } else {
-            $fields = [];
+            $data['fields'] = [];
          }
 
          include 'partials/partials.editform.php'; 
