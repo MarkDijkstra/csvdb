@@ -1,6 +1,5 @@
 <?php 
-
-    if (!$data && !isset($data['columns']) || !isset($data['fields'])) {
+    if (!$data && !isset($data['fields'])) {
         echo '<div class="danger">File not found!</div>';
     } else {
         $edit      = isset($_GET['action']) && $_GET['action'] == 'edit' ?  true : false;
@@ -42,7 +41,7 @@
                             echo '<tr>';
                             foreach ($field as $item) {
                                 echo '<td>';
-                                if($edit) { 
+                                if ($edit) { 
                                     echo '<input type="text" value="'.trim($item).'" name="edit--fields['.$ii.'][]"/>';
                                 } else {
                                     echo trim($item);
@@ -55,9 +54,11 @@
                     ?>
                 </tbody>
             </table>
-            <div class="form__row">
-                <button type="submit" name="save--button">Save file</button>
-            </div>
-            <input type="hidden" value="<?= $delimiter ?>" name="edit--delimiter"/>
+            <?php if($edit) { ?>
+                <div class="form__row">
+                    <button type="submit" name="save--button">Save file</button>
+                </div>
+                <input type="hidden" value="<?= $delimiter ?>" name="edit--delimiter"/>
+            <?php } ?>
         </form>      
 <?php } ?>

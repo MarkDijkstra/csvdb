@@ -4,8 +4,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CSVDB Upload form</title>
-    <link rel="stylesheet" href="assets/style.css">
+    <title>CSVDB</title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>

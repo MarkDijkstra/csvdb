@@ -113,8 +113,7 @@ class Api
      */
     public function find(int $id = null)
     {
-        if ($id && is_int($id)) {
-         
+        if ($id && is_int($id)) {         
             $query  = "SELECT fl.id, fl.name, cm.data as columns, fd.data as fields FROM 
             ".self::TABLEFILE." as fl, 
             ".self::TABLECOLUMNS." as cm,
@@ -125,7 +124,8 @@ class Api
 
             $result = $this->db->prepare($query);
             if ($result->execute([$id])) {
-                return $result->fetch(PDO::FETCH_ASSOC);
+                $data = $result->fetch(PDO::FETCH_ASSOC);
+                return self::unserializeData($data);
             }            
         }
     }
@@ -142,8 +142,30 @@ class Api
             $query  = "SELECT * FROM ".$table." ORDER BY id DESC"; 
             $result = $this->db->prepare($query);
             if ($result->execute()) {
-                return $result->fetchAll(\PDO::FETCH_ASSOC);
+              return $result->fetchAll(PDO::FETCH_ASSOC);
             }
         }   
+    }
+    
+    /**
+     * Method unserializeData
+     *
+     * @param array $data Data to clean
+     * @return void
+     */
+    private function unserializeData(array $data)
+    {
+        if (isset($data['columns'])) {
+            $data['columns'] = unserialize($data['columns']);
+        } else {
+            $data['columns'] = [];
+        }
+        if (isset($data['fields'])) {
+            $data['fields'] = unserialize($data['fields']);
+        } else {
+            $data['fields'] = [];
+        }
+
+        return $data;
     }
 }
