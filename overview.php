@@ -1,18 +1,6 @@
 <?php 
-   require_once 'config.php'; 
-   require_once "./classes/Api.php";
+    include 'partials/partials.header.php';
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>CSVDB Overview</title>
-    <link rel="stylesheet" href="assets/style.css">
-</head>
-<body>
-    <?php 
-        include 'partials/partials.navigation.php'; 
-    ?>
-
     <div class="content">
         <table class="table">
             <thead>
